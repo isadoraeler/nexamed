@@ -12,3 +12,9 @@
 | GET | /consultas | logado (só as suas) | 200 | 401 |
 | PATCH | /consultas/{id}/cancelar | PACIENTE | 200 | 403, 409 |
 | PATCH | /consultas/{id}/concluir | MEDICO | 200 | 403, 404 |
+
+
+## Legenda dos status
+- 200 OK, 201 criado
+- 400 dados inválidos, 401 sem login, 403 sem permissão
+- 404 não encontrado, 409 conflito (ex.: horário já ocupado)
