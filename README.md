@@ -26,7 +26,16 @@ por perfil, log de auditoria e boas práticas de LGPD.
 - [ ] Log de auditoria
 
 ## Como rodar
-Em breve.
+
+### Backend
+Requisitos: Java 21.
+
+```bash
+cd backend
+./mvnw spring-boot:run
+```
+
+No Windows, use `mvnw.cmd spring-boot:run` no CMD ou `.\mvnw.cmd spring-boot:run` no PowerShell. A aplicação sobe em `http://localhost:8080`.
 
 ## Segurança
 Em construção. Ver `docs/seguranca.md`.
