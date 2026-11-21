@@ -13,32 +13,51 @@ por perfil, log de auditoria e boas práticas de LGPD.
 
 ## Tecnologias
 - Java 21 + Spring Boot, Spring Security, JWT
-- PostgreSQL
+- PostgreSQL (H2 em desenvolvimento)
 - HTML, CSS e JavaScript
 - JUnit 5 + Mockito
 - Docker + GitHub Actions
 
 ## Funcionalidades (MVP)
-- [ ] Cadastro e login com perfis (paciente, médico e admin)
+- [x] Cadastro de paciente com senha em hash (BCrypt), validação e aceite LGPD
+- [x] CPF mascarado nas respostas da API
+- [ ] Login com JWT
+- [ ] Controle de acesso por perfil
 - [ ] Agendamento sem conflito de horários
 - [ ] Cancelamento com regra de antecedência
-- [ ] Controle de acesso por perfil
 - [ ] Log de auditoria
+- [ ] Front-end e deploy
 
 ## Como rodar
 
 ### Backend
-Requisitos: Java 21.
+Requisitos: Java 21 ou superior.
 
 ```bash
 cd backend
 ./mvnw spring-boot:run
 ```
+No Windows, use `.\mvnw.cmd spring-boot:run`. A API sobe em `http://localhost:8080`
+com banco H2 em memória (os dados somem ao reiniciar).
 
-No Windows, use `mvnw.cmd spring-boot:run` no CMD ou `.\mvnw.cmd spring-boot:run` no PowerShell. A aplicação sobe em `http://localhost:8080`.
+### Exemplo: cadastro de paciente
+`POST /pacientes`
+```json
+{
+  "nome": "Ana Teste",
+  "email": "ana@teste.com",
+  "senha": "Senha1234",
+  "cpf": "98765432100",
+  "telefone": "27999990000",
+  "dataNascimento": "1998-03-10",
+  "consentimentoLgpd": true
+}
+```
+Respostas: `201` (criado), `400` (dados inválidos) e `409` (e-mail ou CPF já cadastrado).
 
-## Segurança
-Em construção. Ver `docs/seguranca.md`.
+## Documentação
+- Desenho da API: [`docs/api.md`](docs/api.md)
+- Segurança: em construção (`docs/seguranca.md`)
 
 ## Status
 🚧 Em desenvolvimento até 31/12/2026
