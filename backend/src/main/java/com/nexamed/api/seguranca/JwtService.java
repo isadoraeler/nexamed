@@ -54,6 +54,10 @@ public class JwtService {
         return extrairEmail(token).isPresent();
     }
 
+    public long getExpiracaoMinutos() {
+        return expiracaoMinutos;
+    }
+
     private Claims lerClaims(String token) {
         return Jwts.parser().verifyWith(chave).build()
                 .parseSignedClaims(token).getPayload();
