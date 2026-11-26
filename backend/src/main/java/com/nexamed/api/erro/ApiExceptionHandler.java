@@ -2,6 +2,7 @@ package com.nexamed.api.erro;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -27,5 +28,11 @@ public class ApiExceptionHandler {
     public ResponseEntity<Map<String, String>> tratarConflito(ConflitoException ex) {
         return ResponseEntity.status(HttpStatus.CONFLICT)
             .body(Map.of("mensagem", ex.getMessage()));
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<Map<String, String>> tratarAutenticacao(AuthenticationException ex) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+            .body(Map.of("mensagem", "Credenciais inválidas"));
     }
 }
