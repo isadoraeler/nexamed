@@ -12,6 +12,7 @@
 | GET | /consultas | logado (só as suas) | 200 | 401 |
 | PATCH | /consultas/{id}/cancelar | PACIENTE | 200 | 403, 409 |
 | PATCH | /consultas/{id}/concluir | MEDICO | 200 | 403, 404 |
+| GET | /me | logado | 200 | 401 |
 
 
 ## Legenda dos status
@@ -113,3 +114,34 @@ O CPF é devolvido mascarado, e a senha nunca é devolvida.
 |---|---|---|
 | 400 | Dados inválidos ou termo LGPD não aceito | `Dados inválidos`, com a lista de erros por campo |
 | 409 | E-mail ou CPF já cadastrado | `Já existe um cadastro com este e-mail` ou `Já existe um cadastro com este CPF` |
+
+
+### GET /me
+Rota protegida (qualquer usuário logado). Devolve os dados de quem está autenticado.
+
+**Requisição**
+```
+GET /me
+Authorization: Bearer <token>
+```
+
+**Resposta 200**
+```json
+{
+  "nome": "Ana Teste",
+  "email": "ana@teste.com",
+  "perfil": "PACIENTE"
+}
+```
+
+**Erros**
+
+| Status | Quando |
+|---|---|
+| 401 | Token ausente, inválido, adulterado ou expirado |
+
+### Como a API valida o token
+- Um filtro lê o cabeçalho `Authorization: Bearer <token>` em toda requisição
+- Confere a assinatura e a validade do token e busca o usuário no banco
+- O perfil usado nas permissões vem do banco, não do token
+- Sem token válido, as rotas protegidas respondem 401; apenas `POST /pacientes` e `POST /login` são públicas
